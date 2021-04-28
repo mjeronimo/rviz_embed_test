@@ -1,17 +1,19 @@
-
 #include <QApplication>
 
-#include "myviz.h"
+#include <memory>
+
+#include "myviz/myviz.hpp"
 #include "rviz_common/ros_integration/ros_node_abstraction.hpp"
 
-int main(int argc, char *argv[])
+int main(int argc, char ** argv)
 {
   QApplication app(argc, argv);
-
   rclcpp::init(argc, argv);
-  auto ros_node_abs = std::make_shared<rviz_common::ros_integration::RosNodeAbstraction>("rviz_render_node");
 
-  auto myviz = std::make_shared<MyViz>(ros_node_abs);
+  auto ros_node_abs =
+    std::make_shared<rviz_common::ros_integration::RosNodeAbstraction>("rviz_render_node");
+
+  auto myviz = std::make_shared<MyViz>(&app, ros_node_abs);
   myviz->show();
 
   while (rclcpp::ok()) {

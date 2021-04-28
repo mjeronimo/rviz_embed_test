@@ -12,11 +12,7 @@ find_package(rviz_common REQUIRED)
 find_package(rviz_default_plugins REQUIRED)
 find_package(rviz_ogre_vendor REQUIRED)
 find_package(rviz_rendering REQUIRED)
-
 find_package(Qt5 REQUIRED COMPONENTS Widgets Core)
-#find_package(Qt5Core REQUIRED)
-#find_package(Qt5Quick REQUIRED)
-#find_package(Qt5Widgets REQUIRED)
 
 set(THIS_PACKAGE_INCLUDE_DEPENDS
   rclcpp
@@ -28,19 +24,17 @@ set(THIS_PACKAGE_INCLUDE_DEPENDS
 )
 
 include_directories(
+  include
   ${rclcpp_INCLUDE_DIRS}
+  ${rviz_common_INCLUDE_DIRS}
   ${Qt5Core_INCLUDE_DIRS}
-  #${Qt5Quick_INCLUDE_DIRS}
   ${Qt5Widgets_INCLUDE_DIRS}
 )
 
-#set(CMAKE_AUTOMOC ON)
-#set(CMAKE_AUTOUIC ON)
-#set(CMAKE_AUTORCC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 set(headers_to_moc
-  src/myviz.h
+  include/myviz/myviz.hpp
 )
 
 foreach(header "${headers_to_moc}")
@@ -58,10 +52,7 @@ ament_target_dependencies(${PROJECT_NAME} ${THIS_PACKAGE_INCLUDE_DEPENDS})
 
 target_link_libraries(${PROJECT_NAME}
   Qt5::Core
-  #Qt5::Quick
   Qt5::Widgets
-  #rviz_common::rviz_common
-  #-L/home/michael/src/ros2/install/rviz_common/lib
   rviz_common::rviz_common
   rviz_rendering::rviz_rendering
   rviz_ogre_vendor::OgreMain
